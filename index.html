@@ -637,14 +637,20 @@ input[type=range] {
 
 // ─── DATA ───
 const PATTERNS = [
-  {id:1, prediction:'FT=1', condition:'odd1<1.15 + odd2>3.0 + oddX>6.0 + φόρμα≥60%', train_pct:87.1, test_pct:89.4, samples_test:2306, per_month:48.0, odd1_max:1.15, odd2_min:3.0, oddX_min:6.0, form_min:0.6, form_type:'home'},
-  {id:2, prediction:'FT=1', condition:'odd1<1.15 + odd2>3.0 + oddX>6.0 + φόρμα≥80%', train_pct:87.2, test_pct:88.5, samples_test:1236, per_month:25.8, odd1_max:1.15, odd2_min:3.0, oddX_min:6.0, form_min:0.8, form_type:'home'},
-  {id:3, prediction:'FT=2', condition:'odd2<1.15 + odd1>5.0 + oddX>3.5 + φόρμα_away≥60%', train_pct:83.9, test_pct:87.7, samples_test:1266, per_month:26.4, odd2_max:1.15, odd1_min:5.0, oddX_min:3.5, form_min:0.6, form_type:'away'},
-  {id:4, prediction:'FT=1', condition:'odd1<1.15 + odd2>5.0 + oddX>3.5 + φόρμα≥100%', train_pct:87.3, test_pct:87.4, samples_test:499, per_month:10.4, odd1_max:1.15, odd2_min:5.0, oddX_min:3.5, form_min:1.0, form_type:'home'},
-  {id:5, prediction:'FT=2', condition:'odd2<1.15 + odd1>3.0 + oddX>6.0 + φόρμα_away≥60%', train_pct:87.1, test_pct:87.1, samples_test:1087, per_month:22.6, odd2_max:1.15, odd1_min:3.0, oddX_min:6.0, form_min:0.6, form_type:'away'},
-  {id:6, prediction:'FT=2', condition:'odd2<1.20 + odd1>4.0 + oddX>6.0 + φόρμα_away≥60%', train_pct:86.8, test_pct:86.3, samples_test:1201, per_month:25.0, odd2_max:1.20, odd1_min:4.0, oddX_min:6.0, form_min:0.6, form_type:'away'},
-  {id:7, prediction:'FT=1', condition:'odd1<1.20 + odd2>6.0 + oddX>6.0 + φόρμα≥100%', train_pct:86.6, test_pct:86.1, samples_test:481, per_month:10.0, odd1_max:1.20, odd2_min:6.0, oddX_min:6.0, form_min:1.0, form_type:'home'},
-  {id:8, prediction:'FT=2', condition:'odd2<1.20 + odd1>4.0 + oddX>5.0 + φόρμα_away≥60%', train_pct:82.4, test_pct:85.4, samples_test:1860, per_month:38.8, odd2_max:1.20, odd1_min:4.0, oddX_min:5.0, form_min:0.6, form_type:'away'},
+  {id:1,  prediction:'FT=1', condition:'odd1<1.20 + odd2>12.0 + oddX>6.0', train_pct:88.3, test_pct:89.6, samples_test:3106, per_month:64.7, odd1_max:1.20, odd2_min:12.0, oddX_min:6.0, form_min:0.0, form_type:'home'},
+  {id:2,  prediction:'FT=1', condition:'odd1<1.20 + odd2>10.0 + oddX>6.0 + φόρμα≥60%', train_pct:87.0, test_pct:89.6, samples_test:2328, per_month:48.5, odd1_max:1.20, odd2_min:10.0, oddX_min:6.0, form_min:0.6, form_type:'home'},
+  {id:3,  prediction:'FT=1', condition:'odd1<1.20 + odd2>10.0 + oddX>6.0 + φόρμα≥80%', train_pct:86.9, test_pct:89.0, samples_test:1250, per_month:26.0, odd1_max:1.20, odd2_min:10.0, oddX_min:6.0, form_min:0.8, form_type:'home'},
+  {id:4,  prediction:'FT=1', condition:'odd1<1.20 + odd2>10.0 + oddX>6.0', train_pct:88.1, test_pct:88.9, samples_test:3750, per_month:78.1, odd1_max:1.20, odd2_min:10.0, oddX_min:6.0, form_min:0.0, form_type:'home'},
+  {id:5,  prediction:'FT=1', condition:'odd1<1.20 + odd2>3.0 + oddX>6.0 + φόρμα≥60%', train_pct:86.9, test_pct:88.4, samples_test:2526, per_month:52.6, odd1_max:1.20, odd2_min:3.0, oddX_min:6.0, form_min:0.6, form_type:'home'},
+  {id:6,  prediction:'FT=1', condition:'odd1<1.20 + odd2>8.0 + oddX>6.0 + φόρμα≥60%', train_pct:86.9, test_pct:88.4, samples_test:2513, per_month:52.4, odd1_max:1.20, odd2_min:8.0, oddX_min:6.0, form_min:0.6, form_type:'home'},
+  {id:7,  prediction:'FT=1', condition:'odd1<1.20 + odd2>8.0 + oddX>6.0 + φόρμα≥80%', train_pct:87.4, test_pct:87.9, samples_test:1352, per_month:28.2, odd1_max:1.20, odd2_min:8.0, oddX_min:6.0, form_min:0.8, form_type:'home'},
+  {id:8,  prediction:'FT=1', condition:'odd1<1.20 + odd2>3.0 + oddX>6.0 + φόρμα≥80%', train_pct:87.5, test_pct:87.8, samples_test:1364, per_month:28.4, odd1_max:1.20, odd2_min:3.0, oddX_min:6.0, form_min:0.8, form_type:'home'},
+  {id:9,  prediction:'FT=1', condition:'odd1<1.20 + odd2>8.0 + oddX>6.0', train_pct:87.6, test_pct:87.8, samples_test:4061, per_month:84.6, odd1_max:1.20, odd2_min:8.0, oddX_min:6.0, form_min:0.0, form_type:'home'},
+  {id:10, prediction:'FT=2', condition:'odd2<1.15 + odd1>5.0 + oddX>3.5 + φόρμα≥60%', train_pct:83.9, test_pct:87.7, samples_test:1266, per_month:26.4, odd2_max:1.15, odd1_min:5.0, oddX_min:3.5, form_min:0.6, form_type:'away'},
+  {id:11, prediction:'FT=2', condition:'odd2<1.15 + odd1>3.0 + oddX>6.0 + φόρμα≥60%', train_pct:87.1, test_pct:87.1, samples_test:1087, per_month:22.6, odd2_max:1.15, odd1_min:3.0, oddX_min:6.0, form_min:0.6, form_type:'away'},
+  {id:12, prediction:'FT=2', condition:'odd2<1.20 + odd1>4.0 + oddX>6.0 + φόρμα≥60%', train_pct:86.8, test_pct:86.3, samples_test:1201, per_month:25.0, odd2_max:1.20, odd1_min:4.0, oddX_min:6.0, form_min:0.6, form_type:'away'},
+  {id:13, prediction:'FT=1', condition:'odd1<1.20 + odd2>5.0 + oddX>5.0 + φόρμα≥60%', train_pct:85.5, test_pct:86.1, samples_test:4187, per_month:87.2, odd1_max:1.20, odd2_min:5.0, oddX_min:5.0, form_min:0.6, form_type:'home'},
+  {id:14, prediction:'FT=2', condition:'odd2<1.20 + odd1>4.0 + oddX>5.0 + φόρμα≥60%', train_pct:82.4, test_pct:85.4, samples_test:1860, per_month:38.8, odd2_max:1.20, odd1_min:4.0, oddX_min:5.0, form_min:0.6, form_type:'away'},
 ];
 
 let allMatches = [];
