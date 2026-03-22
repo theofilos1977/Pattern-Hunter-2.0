@@ -147,7 +147,6 @@ input[type=range]{width:100%;height:4px;accent-color:var(--accent);cursor:pointe
   <div class="logo"><div class="logo-dot"></div>FootPatterns</div>
   <nav class="nav">
     <button class="nav-btn active" onclick="showPage('check',this)">⚡ Έλεγχος</button>
-    <button class="nav-btn" onclick="showPage('standings',this)">Βαθμολογία</button>
     <button class="nav-btn" onclick="showPage('patterns',this)">Μοτίβα</button>
     <button class="nav-btn" onclick="showPage('tracker',this)">Ιστορικό</button>
     <button class="nav-btn" onclick="showPage('compound',this)">Compound</button>
@@ -249,33 +248,6 @@ input[type=range]{width:100%;height:4px;accent-color:var(--accent);cursor:pointe
     </div>
 
   </div>
-</div>
-
-<!-- ═══ STANDINGS ═══ -->
-<div id="page-standings" class="page">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;">
-    <div class="section-title" style="margin-bottom:0;">Βαθμολογία <span>Τρέχουσας Σεζόν</span></div>
-    <select class="league-select" id="s-league" onchange="fetchStandings()">
-      <option value="ΑΓΓ1">Premier League</option>
-      <option value="ΑΓΓ2">Championship</option>
-      <option value="ΓΕΡ1" selected>Bundesliga</option>
-      <option value="ΓΕΡ2">2. Bundesliga</option>
-      <option value="ΙΣΠ1">La Liga</option>
-      <option value="ΙΣΠ2">La Liga 2</option>
-      <option value="ΙΤΑ1">Serie A</option>
-      <option value="ΙΤΑ2">Serie B</option>
-      <option value="ΓΑΛ1">Ligue 1</option>
-      <option value="ΓΑΛ2">Ligue 2</option>
-      <option value="ΟΛΛ1">Eredivisie</option>
-      <option value="ΒΕΛ1">Pro League</option>
-      <option value="ΠΟΡ1">Primeira Liga</option>
-      <option value="ΤΟΥ1">Süper Lig</option>
-      <option value="ΣΚΩ1">Scottish Prem</option>
-      <option value="ΕΛΛΣ">Super League</option>
-    </select>
-    <button class="btn-sm" onclick="fetchStandings()">↻ Ανανέωση</button>
-  </div>
-  <div id="standings-content"><div class="loading"><div class="spinner"></div>Φόρτωση...</div></div>
 </div>
 
 <!-- ═══ PATTERNS ═══ -->
@@ -603,6 +575,38 @@ function renderResult(home, away, markets, hot, margin, liveData) {
             <span>${m.away}</span>
           </div>`;
         }).join('')}
+      </div>`;
+    }
+
+    // Βαθμολογία λίγκας
+    if(liveData.standings && liveData.standings.length) {
+      const homePos = liveData.homeTeam?.pos;
+      const awayPos = liveData.awayTeam?.pos;
+      html += `<div class="card" style="margin-bottom:12px;">
+        <div class="card-title">Βαθμολογία — ${liveData.league} (${liveData.season})</div>
+        <div style="overflow-x:auto;">
+        <table class="standings-table">
+          <thead><tr>
+            <th>#</th><th>Ομάδα</th><th>Α</th><th>Ν</th><th>Ι</th><th>Η</th>
+            <th>Γ+</th><th>Γ-</th><th>ΓΔ</th><th>Βαθ.</th><th>Φόρμα</th>
+          </tr></thead>
+          <tbody>
+            ${liveData.standings.map(t => `
+              <tr ${(t.pos===homePos||t.pos===awayPos)?'class="highlight-row"':''}>
+                <td class="pos-num">${t.pos}</td>
+                <td style="font-weight:${(t.pos===homePos||t.pos===awayPos)?'700':'400'};">${t.name}</td>
+                <td style="color:var(--muted);">${t.p}</td>
+                <td style="color:var(--green);">${t.w}</td>
+                <td style="color:var(--amber);">${t.d}</td>
+                <td style="color:var(--red);">${t.l}</td>
+                <td>${t.gf}</td><td>${t.ga}</td>
+                <td style="color:${t.gd>0?'var(--green)':t.gd<0?'var(--red)':'var(--text)'};">${t.gd>0?'+':''}${t.gd}</td>
+                <td style="font-weight:700;font-family:'JetBrains Mono',monospace;">${t.pts}</td>
+                <td><div style="display:flex;gap:3px;">${(t.form||[]).map(f=>`<div class="form-dot ${f==='W'?'fd-w':f==='D'?'fd-d':'fd-l'}" style="width:18px;height:18px;font-size:10px;">${f}</div>`).join('')}</div></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+        </div>
       </div>`;
     }
   }
