@@ -124,32 +124,35 @@ exports.handler = async (event) => {
     const leagueGr = params.league || 'ΑΓΓ1';
     const homeTeam = params.home || '';
     const awayTeam = params.away || '';
-    const season = params.season || '2425';
+    const currentSeason = '2425';
+    const prevSeason    = '2324';
 
     const leagueCode = LEAGUE_CODES[leagueGr];
     if (!leagueCode) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: `Άγνωστη λίγκα: ${leagueGr}` })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: `Άγνωστη λίγκα: ${leagueGr}` }) };
     }
 
-    const url = `https://www.football-data.co.uk/mmz4281/${season}/${leagueCode}.csv`;
-    const csvText = await fetchCSV(url);
-    const rows = parseCSV(csvText);
+    // Τρέχουσα σεζόν — για βαθμολογία + φόρμα
+    const urlCurrent = `https://www.football-data.co.uk/mmz4281/${currentSeason}/${leagueCode}.csv`;
+    const csvCurrent = await fetchCSV(urlCurrent);
+    const rowsCurrent = parseCSV(csvCurrent);
 
-    if (!rows.length) {
-      return {
-        statusCode: 404,
-        headers,
-        body: JSON.stringify({ error: 'Δεν βρέθηκαν δεδομένα' })
-      };
+    if (!rowsCurrent.length) {
+      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Δεν βρέθηκαν δεδομένα' }) };
     }
 
-    const standings = computeStandings(rows);
-    
-    // Βρίσκουμε τις ομάδες
+    // Προηγούμενη σεζόν — μόνο για H2H
+    let rowsPrev = [];
+    try {
+      const urlPrev = `https://www.football-data.co.uk/mmz4281/${prevSeason}/${leagueCode}.csv`;
+      const csvPrev = await fetchCSV(urlPrev);
+      rowsPrev = parseCSV(csvPrev);
+    } catch(e) { /* συνεχίζουμε χωρίς */ }
+
+    // Βαθμολογία από τρέχουσα σεζόν
+    const standings = computeStandings(rowsCurrent);
+
+    // Βρίσκουμε ομάδες
     const homeData = standings.find(t =>
       t.name.toLowerCase().includes(homeTeam.toLowerCase()) ||
       homeTeam.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])
@@ -159,9 +162,10 @@ exports.handler = async (event) => {
       awayTeam.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])
     );
 
-    // H2H
+    // H2H από 2 σεζόν — τελευταίοι 5
+    const allRows = [...rowsPrev, ...rowsCurrent];
     const h2h = (homeData && awayData)
-      ? computeH2H(rows, homeData.name, awayData.name)
+      ? computeH2H(allRows, homeData.name, awayData.name)
       : [];
 
     return {
@@ -169,7 +173,7 @@ exports.handler = async (event) => {
       headers,
       body: JSON.stringify({
         league: leagueGr,
-        season,
+        season: currentSeason,
         totalTeams: standings.length,
         standings: standings.slice(0, 20),
         homeTeam: homeData || null,
